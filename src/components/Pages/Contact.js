@@ -1,123 +1,31 @@
 import React, { Component } from "react";
-import Field from "../Common/Field";
-import { withFormik } from "formik";
-import * as Yup from "yup";
-
-const fields = {
-  sections: [
-    [
-      {
-        name: "name",
-        elementName: "input",
-        type: "text",
-        placeholder: "Your name*",
-      },
-      {
-        name: "email",
-        elementName: "input",
-        type: "email",
-        placeholder: "Your email*",
-      },
-      {
-        name: "phone",
-        elementName: "input",
-        type: "text",
-        placeholder: "Your phone number*",
-      },
-    ],
-    [
-      {
-        name: "message",
-        elementName: "textarea",
-        type: "text",
-        placeholder: "Type your message*",
-      },
-    ],
-  ],
-};
-
+import HubspotForm from "react-hubspot-form";
+require("dotenv").config();
+///To Do
+/// Add a .env file so I can add the portalID there
 class Contact extends Component {
   render() {
     return (
       <section className="page-section" id="contact">
         <div className="container">
           <div className="text-center">
-            <h2 className="section-heading text-uppercase">Contact Us</h2>
+            <h2 className="section-heading text-uppercase">Contact Me</h2>
             <h3 className="section-subheading text-muted">
-              Lorem ipsum dolor sit amet consectetur.
+              Please fill out the form below, and I will reach back out to you.
             </h3>
+
+            <HubspotForm
+              portalId="6648501"
+              formId="ad1a44b7-d3da-4b59-a3af-32fc099a39d0"
+              onSubmit={() => console.log("Submit!")}
+              onReady={(form) => console.log("Form ready!")}
+              loading={<div>Loading...</div>}
+            />
           </div>
-          <form
-            id="contactForm"
-            name="sentMessage"
-            novalidate="novalidate"
-            onSubmit={this.props.handleSubmit}
-          >
-            <div className="row align-items-stretch mb-5">
-              {fields.sections.map((section, sectionIndex) => {
-                console.log("Rendering section", sectionIndex, "with", section);
-                return (
-                  <div className="col-md-6" key={sectionIndex}>
-                    {section.map((field, i) => {
-                      return (
-                        <Field
-                          {...field}
-                          key={i}
-                          value={this.props.values[field.name]}
-                          name={field.name}
-                          onChange={this.props.handleChange}
-                          onBlur={this.props.handleBlur}
-                          touched={this.props.touched[field.name]}
-                          errors={this.props.errors[field.name]}
-                        />
-                      );
-                    })}
-                  </div>
-                );
-              })}
-            </div>
-            <div className="text-center">
-              <div id="success"></div>
-              <button
-                className="btn btn-primary btn-xl text-uppercase"
-                id="sendMessageButton"
-                type="submit"
-                onClick={(e) => this.submitForm}
-              >
-                Send Message
-              </button>
-            </div>
-          </form>
         </div>
       </section>
     );
   }
 }
 
-export default withFormik({
-  mapPropsToValues: () => ({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  }),
-  validationSchema: Yup.object().shape({
-    name: Yup.string()
-      .min(3, "Come on bro, your name is longer then that")
-      .required("You must give us your name."),
-    email: Yup.string()
-      .email("You need to give us a valid email")
-      .required("We need your email"),
-    phone: Yup.string()
-      .min(10, "Please provide your 10 digit phone number")
-      .max(15, "Your phone number is too long")
-      .required("we need your phone number to reach you at"),
-    message: Yup.string()
-      .min(500, "You need provide us more detailed info")
-      .required("messsage is required"),
-  }),
-
-  handleSubmit: (values, { setSubmitting }) => {
-    alert("You have submitted the form", JSON.stringify(values));
-  },
-})(Contact);
+export default Contact;

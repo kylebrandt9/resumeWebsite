@@ -39,12 +39,12 @@ class PageWrapper extends Component {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link js-scroll-trigger" to="/about">
-                    About
+                    Work Experience
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link js-scroll-trigger" to="/team">
-                    Team
+                    Me
                   </Link>
                 </li>
                 <li className="nav-item">
